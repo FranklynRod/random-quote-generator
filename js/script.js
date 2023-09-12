@@ -11,13 +11,14 @@ project 1 - A Random Quote Generator
  * A Quotes array containing objects with quotes, source, citation, tag and year of quote.
  
 ***/
+
+//A Quotes array containing objects with quotes, source, citation, tag and year of quote.
 const quotes = [
   {
     quote:'Cooking is love made visible',
     source: 'Anonymous',
     citation: 'theknot.com',
     tags: 'historical',
-    year: 'unknown',
     countryOfOrigin: 'unknown'
   },
 
@@ -61,7 +62,7 @@ const quotes = [
 
 const getRandomQuote = (quotes) => {
   //Get random quote store in variable
-  const randomQuote = Math.floor(Math.random() * (quotes.length-1)+1);
+  const randomQuote = Math.floor(Math.random() * quotes.length);
   // Uses random quote index to return quote object
   return quotes[randomQuote];
 };
@@ -74,6 +75,50 @@ console.log(getRandomQuote(quotes));
  * `printQuote` function
 ***/
 
+const printQuote = () => {
+  let html = ''; 
+  const randomizedQuote = getRandomQuote(quotes);
+  const quote = `<p class='quote'> ${randomizedQuote.quote}`;
+  const source = `<p class='source'> ${randomizedQuote.source}` +`,  `;
+  //add quote properties to HTML if they are present
+  if (randomizedQuote.citation){
+    html += `<span class='tags'>${randomizedQuote.citation}</span>` +`,  `
+
+  } 
+  if (randomizedQuote.tags){
+
+    html += `<span class='tags'>${randomizedQuote.tags}</span>`
+
+
+  } 
+  if ( randomizedQuote.year){
+    
+    html += `<span class='year'>${randomizedQuote.year}</span>` +`,  `
+
+  } 
+
+  if (randomizedQuote.countryOfOrigin){
+    html += `<span class='countryOfOrigin'>${randomizedQuote.countryOfOrigin}</span>`
+
+  } 
+  
+ 
+  html+= `</p>`
+  
+ //Allow properties to be added to html
+  const quoteBox = document.getElementById('quote-box')
+  if (quoteBox) {
+    quoteBox.innerHTML = quote + source + html;
+  }
+
+}
+// reload quotes every 3 seconds
+//https://www.freecodecamp.org/news/refresh-the-page-in-javascript-js-reload-window-tutorial/#:~:text=How%20to%20Refresh%2FReload%20a,will%20reload%20every%203%20seconds.
+setTimeout(() => {
+  document.location.reload();
+}, 3000);
+
+printQuote();
 
 /***
  * click event listener for the print quote button
